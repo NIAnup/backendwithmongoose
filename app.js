@@ -2,14 +2,26 @@ const express = require('express');
 const app = express();
 const path = require('mongoose');
 const User= require('./model/user');
+const cookieParser = require('cookie-parser');
 
-app.use(express.json());
+app.use(express.json({limit:'16kb'}));
+app.use(express.urlencoded({extended:true,limit:'16kb'}));
+app.use(express.static('public'))
+app.use(cookieParser());
 
-app.post('/register',(req,res)=>{
-    res.send('hello world');
-})
 
-express().listen("3000",()=>{
-    console.log('Server is running on port 3000');
-});
 
+//router import
+
+import userRouter from './routes/user.routes.js';
+
+
+
+
+
+// route declaration
+app.use('/api/v1/users',userRouter)
+
+
+
+export{app}
